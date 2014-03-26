@@ -1,5 +1,6 @@
 package me.bigteddy98.packetapi;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 public class PacketAPI extends JavaPlugin implements Listener {
 
@@ -22,10 +24,18 @@ public class PacketAPI extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			// Failed to submit the stats :-(
+		}
+
 		plugin = this;
 		this.getServer().getPluginManager().registerEvents(this, this);
-		
-		for(Player p : this.getServer().getOnlinePlayers()){
+
+		for (Player p : this.getServer().getOnlinePlayers()) {
 			this.setConnection(p);
 		}
 	}
