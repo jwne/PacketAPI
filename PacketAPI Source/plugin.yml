@@ -1,0 +1,5 @@
+name: PacketAPI
+main: me.bigteddy98.packetapi.PacketAPI
+commands:
+    hi:
+version: 1.0
