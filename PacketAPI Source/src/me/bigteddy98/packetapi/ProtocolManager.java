@@ -66,6 +66,16 @@ public class ProtocolManager implements Listener {
 					}
 					super.write(ctx, msg, promise);
 				}
+
+				@Override
+				public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+					Cancellable cancel = new Cancellable();
+					plugin.packetRecieve(new PacketWrapper((Packet) msg), cancel, p.getName());
+					if (cancel.isCancelled()) {
+						return;
+					}
+					super.channelRead(ctx, msg);
+				}
 			});
 
 		} catch (Exception e) {

@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import me.bigteddy98.packetapi.api.Cancellable;
 import me.bigteddy98.packetapi.api.PacketHandler;
 import me.bigteddy98.packetapi.api.PacketListener;
+import me.bigteddy98.packetapi.api.PacketRecieveEvent;
 import me.bigteddy98.packetapi.api.PacketSendEvent;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,8 +35,10 @@ public class PacketAPI extends JavaPlugin {
 
 		plugin = this;
 		manager = new ProtocolManager(this);
+
+		new ExamplePlugin(this);
 	}
-	
+
 	@Override
 	public void onDisable() {
 		this.manager.disable();
@@ -43,7 +46,7 @@ public class PacketAPI extends JavaPlugin {
 
 	public void addListener(PacketListener listener) {
 		List<Method> methods = new ArrayList<Method>();
-		for (Method method : listener.getClass().getMethods()) {
+		for (Method method : listener.getClass().getDeclaredMethods()) {
 			PacketHandler ann = method.getAnnotation(PacketHandler.class);
 			if (ann != null) {
 				try {
@@ -63,9 +66,28 @@ public class PacketAPI extends JavaPlugin {
 	public void packetSend(PacketWrapper packet, Cancellable cancel, String recieverName) {
 		for (Entry<PacketListener, List<Method>> listener : this.packetListeners.entrySet()) {
 			for (Method method : listener.getValue()) {
+				if (!method.getParameterTypes()[0].equals(PacketSendEvent.class)) {
+					continue;
+				}
 				method.setAccessible(true);
 				try {
 					method.invoke(listener.getKey(), new PacketSendEvent(packet, cancel, recieverName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void packetRecieve(PacketWrapper packet, Cancellable cancel, String recieverName) {
+		for (Entry<PacketListener, List<Method>> listener : this.packetListeners.entrySet()) {
+			for (Method method : listener.getValue()) {
+				if (!method.getParameterTypes()[0].equals(PacketRecieveEvent.class)) {
+					continue;
+				}
+				method.setAccessible(true);
+				try {
+					method.invoke(listener.getKey(), new PacketRecieveEvent(packet, cancel, recieverName));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
