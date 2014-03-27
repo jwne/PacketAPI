@@ -36,7 +36,7 @@ public class PacketAPI extends JavaPlugin {
 		plugin = this;
 		manager = new ProtocolManager(this);
 
-		//new ExamplePlugin(this);
+		// new ExamplePlugin(this);
 	}
 
 	@Override
@@ -64,18 +64,22 @@ public class PacketAPI extends JavaPlugin {
 	}
 
 	public void packetSend(PacketWrapper packet, Cancellable cancel, String recieverName) {
-		for (Entry<PacketListener, List<Method>> listener : this.packetListeners.entrySet()) {
-			for (Method method : listener.getValue()) {
-				if (!method.getParameterTypes()[0].equals(PacketSendEvent.class)) {
-					continue;
-				}
-				method.setAccessible(true);
-				try {
-					method.invoke(listener.getKey(), new PacketSendEvent(packet, cancel, recieverName));
-				} catch (Exception e) {
-					e.printStackTrace();
+		try {
+			for (Entry<PacketListener, List<Method>> listener : this.packetListeners.entrySet()) {
+				for (Method method : listener.getValue()) {
+					if (!method.getParameterTypes()[0].equals(PacketSendEvent.class)) {
+						continue;
+					}
+					method.setAccessible(true);
+					try {
+						method.invoke(listener.getKey(), new PacketSendEvent(packet, cancel, recieverName));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -86,7 +86,7 @@ public class ProtocolManager implements Listener {
 	public void disable() {
 		HandlerList.unregisterAll(this);
 		for (Entry<String, Channel> channel : this.channels.entrySet()) {
-			if (this.plugin.getServer().getPlayerExact(channel.getKey()).isOnline()) {
+			if (this.plugin.getServer().getPlayerExact(channel.getKey()) != null) {
 				channel.getValue().pipeline().remove("PacketAPI");
 			}
 		}
