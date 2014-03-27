@@ -21,7 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class ProtocolManager implements Listener {
-	
+
 	private PacketAPI plugin;
 	private Field m;
 
@@ -75,8 +75,10 @@ public class ProtocolManager implements Listener {
 
 	public void disable() {
 		HandlerList.unregisterAll(this);
-		for(Entry<String, Channel> channel : this.channels.entrySet()){
-			channel.getValue().pipeline().remove("PacketAPI");
+		for (Entry<String, Channel> channel : this.channels.entrySet()) {
+			if (this.plugin.getServer().getPlayerExact(channel.getKey()).isOnline()) {
+				channel.getValue().pipeline().remove("PacketAPI");
+			}
 		}
 	}
 }
