@@ -50,4 +50,8 @@ public class PacketWrapper {
 	public net.minecraft.server.v1_7_R2.Packet getNMSPacket() {
 		return (Packet) this.packet;
 	}
+	
+	public String getName() {
+		return this.packet.getClass().getSimpleName();
+	}
 }

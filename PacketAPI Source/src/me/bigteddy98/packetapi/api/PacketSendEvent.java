@@ -30,6 +30,7 @@ public class PacketSendEvent {
 		return recieverName;
 	}
 
+	@Deprecated
 	public String getPacketName() {
 		return this.packet.getNMSPacket().getClass().getSimpleName();
 	}

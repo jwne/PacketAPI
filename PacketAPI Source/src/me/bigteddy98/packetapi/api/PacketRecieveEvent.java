@@ -17,12 +17,12 @@ public class PacketRecieveEvent {
 	public PacketWrapper getPacket() {
 		return packet;
 	}
-	
-	public boolean isCancelled(){
+
+	public boolean isCancelled() {
 		return this.cancel.isCancelled();
 	}
-	
-	public void setCancelled(boolean cancel){
+
+	public void setCancelled(boolean cancel) {
 		this.cancel.setCancelled(cancel);
 	}
 
@@ -30,6 +30,7 @@ public class PacketRecieveEvent {
 		return recieverName;
 	}
 
+	@Deprecated
 	public String getPacketName() {
 		return this.packet.getNMSPacket().getClass().getSimpleName();
 	}

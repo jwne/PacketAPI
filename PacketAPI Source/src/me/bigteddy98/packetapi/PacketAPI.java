@@ -13,6 +13,7 @@ import me.bigteddy98.packetapi.api.PacketHandler;
 import me.bigteddy98.packetapi.api.PacketListener;
 import me.bigteddy98.packetapi.api.PacketRecieveEvent;
 import me.bigteddy98.packetapi.api.PacketSendEvent;
+import me.bigteddy98.packetapi.api.PacketType;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
@@ -36,7 +37,7 @@ public class PacketAPI extends JavaPlugin {
 		plugin = this;
 		manager = new ProtocolManager(this);
 
-		// new ExamplePlugin(this);
+		new ExamplePlugin(this);
 	}
 
 	@Override
@@ -70,11 +71,17 @@ public class PacketAPI extends JavaPlugin {
 					if (!method.getParameterTypes()[0].equals(PacketSendEvent.class)) {
 						continue;
 					}
-					method.setAccessible(true);
-					try {
-						method.invoke(listener.getKey(), new PacketSendEvent(packet, cancel, recieverName));
-					} catch (Exception e) {
-						e.printStackTrace();
+
+					PacketHandler ann = method.getAnnotation(PacketHandler.class);
+
+					if (ann.listenType() == PacketType.ALL || ann.listenType().getName().equals(packet.getName())) {
+
+						method.setAccessible(true);
+						try {
+							method.invoke(listener.getKey(), new PacketSendEvent(packet, cancel, recieverName));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -89,11 +96,17 @@ public class PacketAPI extends JavaPlugin {
 				if (!method.getParameterTypes()[0].equals(PacketRecieveEvent.class)) {
 					continue;
 				}
-				method.setAccessible(true);
-				try {
-					method.invoke(listener.getKey(), new PacketRecieveEvent(packet, cancel, recieverName));
-				} catch (Exception e) {
-					e.printStackTrace();
+
+				PacketHandler ann = method.getAnnotation(PacketHandler.class);
+
+				if (ann.listenType() == PacketType.ALL || ann.listenType().getName().equals(packet.getName())) {
+
+					method.setAccessible(true);
+					try {
+						method.invoke(listener.getKey(), new PacketRecieveEvent(packet, cancel, recieverName));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
