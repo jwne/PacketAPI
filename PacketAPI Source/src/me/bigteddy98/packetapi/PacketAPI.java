@@ -16,21 +16,11 @@ import me.bigteddy98.packetapi.api.PacketSendEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
-public class PacketAPI extends JavaPlugin implements PacketListener {
+public class PacketAPI extends JavaPlugin {
 
 	private static PacketAPI plugin;
 	private Map<PacketListener, List<Method>> packetListeners = new HashMap<PacketListener, List<Method>>();
 	private ProtocolManager manager;
-	
-	
-	@PacketHandler
-	public void onSend(PacketSendEvent event) {
-		System.out.println("packet: " + event.getPacketName());
-		
-		if(event.getPacketName().equals("PacketPlayOutAnimation")){
-			event.setCancelled(true);
-		}
-	}
 
 	@Override
 	public void onEnable() {
@@ -44,7 +34,6 @@ public class PacketAPI extends JavaPlugin implements PacketListener {
 
 		plugin = this;
 		manager = new ProtocolManager(this);
-		this.addListener(this);
 	}
 	
 	@Override
