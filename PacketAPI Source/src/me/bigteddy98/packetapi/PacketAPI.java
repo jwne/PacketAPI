@@ -36,7 +36,7 @@ public class PacketAPI extends JavaPlugin {
 		plugin = this;
 		manager = new ProtocolManager(this);
 
-		new ExamplePlugin(this);
+		//new ExamplePlugin(this);
 	}
 
 	@Override
