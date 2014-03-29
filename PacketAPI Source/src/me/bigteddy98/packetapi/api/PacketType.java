@@ -92,7 +92,14 @@ public enum PacketType {
 	PacketPlayInTransaction("PacketPlayInTransaction"),
 	PacketPlayInUpdateSign("PacketPlayInUpdateSign"),
 	PacketPlayInUseEntity("PacketPlayInUseEntity"),
-	PacketPlayInWindowClick("PacketPlayInWindowClick");
+	PacketPlayInWindowClick("PacketPlayInWindowClick"),
+	
+	
+	PacketStatusInPing("PacketStatusInPing"),
+	PacketStatusInStart("PacketStatusInStart"),
+	
+	PacketStatusOutPong("PacketStatusOutPong"),
+	PacketStatusOutServerInfo("PacketStatusOutServerInfo");
 	
 	private String name;
 

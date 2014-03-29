@@ -1,6 +1,7 @@
 package me.bigteddy98.packetapi;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,13 @@ import me.bigteddy98.packetapi.api.PacketListener;
 import me.bigteddy98.packetapi.api.PacketRecieveEvent;
 import me.bigteddy98.packetapi.api.PacketSendEvent;
 import me.bigteddy98.packetapi.api.PacketType;
+import net.minecraft.server.v1_7_R2.MinecraftServer;
+import net.minecraft.server.v1_7_R2.NetworkManager;
+import net.minecraft.server.v1_7_R2.ServerConnection;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R2.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
@@ -37,7 +44,7 @@ public class PacketAPI extends JavaPlugin {
 		plugin = this;
 		manager = new ProtocolManager(this);
 
-		new ExamplePlugin(this);
+		//new ExamplePlugin(this);
 	}
 
 	@Override
