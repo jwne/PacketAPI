@@ -1,5 +1,6 @@
 package me.bigteddy98.packetapi;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import me.bigteddy98.packetapi.api.PacketHandler;
@@ -23,9 +24,11 @@ public class ExamplePlugin implements PacketListener {
 
 	@PacketHandler(listenType = PacketType.PacketStatusOutServerInfo)
 	public void onSend(PacketSendEvent event) throws Exception {
-		Method setSample = Reflection.getMCClass("ServerPing").getMethod("setPlayerSample", Reflection.getMCClass("ServerPingPlayerSample"));
-		Object currentPing = event.getPacket().getValue("b");
-		setSample.invoke(currentPing, PacketDataWrapper.ServerPingPlayerSample(1002, 1021));
-		event.getPacket().setValue("b", currentPing);
+		Object sample = PacketDataWrapper.ServerPingPlayerSample(1002, 1021);
+		Method setSample = Reflection.getMCClass("ServerPing").getMethod("setPlayerSample", sample.getClass());
+		Field f = Reflection.getFieldByClass(event.getPacket().getNMSPacket().getClass(), Reflection.getMCClass("ServerPing"));
+		Object currentPing = f.get(event.getPacket().getNMSPacket());
+		setSample.invoke(currentPing, sample);
 	}
+	
 }

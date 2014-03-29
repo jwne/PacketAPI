@@ -42,4 +42,14 @@ public class Reflection {
 		String className = "org.bukkit.craftbukkit." + version + name;
 		return Class.forName(className);
 	}
+
+	public static Field getFieldByClass(Class<?> clazz, Class<?> type) {
+		for (Field field : clazz.getDeclaredFields()) {
+			if (field.getType().getName().equals(type.getName())) {
+				field.setAccessible(true);
+				return field;
+			}
+		}
+		return null;
+	}
 }
