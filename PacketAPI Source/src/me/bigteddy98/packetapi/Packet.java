@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.bigteddy98.packetapi.api.NMSUtil;
+import me.bigteddy98.packetapi.api.Reflection;
 import me.bigteddy98.packetapi.collections.Animation;
 import me.bigteddy98.packetapi.collections.Particle;
 import me.bigteddy98.packetapi.collections.Slot;
@@ -163,7 +163,7 @@ public class Packet {
 	}
 
 	public static PacketWrapper PacketPlayOutEntityEquipment(int entity_id, Slot type, ItemStack stack) {
-		return new PacketWrapper(new PacketPlayOutEntityEquipment(entity_id, type.getId(), NMSUtil.getHandle((CraftItemStack) stack)));
+		return new PacketWrapper(new PacketPlayOutEntityEquipment(entity_id, type.getId(), Reflection.getHandle((CraftItemStack) stack)));
 	}
 
 	public static PacketWrapper PacketPlayOutEntityHeadRotation(Entity entity, byte yaw) {
@@ -278,7 +278,7 @@ public class Packet {
 	}
 
 	public static PacketWrapper PacketPlayOutSetSlot(int window_id, short slot, ItemStack stack) {
-		return new PacketWrapper(new PacketPlayOutSetSlot(window_id, slot, NMSUtil.getHandle((CraftItemStack) stack)));
+		return new PacketWrapper(new PacketPlayOutSetSlot(window_id, slot, Reflection.getHandle((CraftItemStack) stack)));
 	}
 
 	public static PacketWrapper PacketPlayOutSpawnEntity(Entity e, int type) {
@@ -338,7 +338,7 @@ public class Packet {
 
 		for (ItemStack stack : stacks) {
 			try {
-				nms_stacks.add(NMSUtil.getHandle((CraftItemStack) stack));
+				nms_stacks.add(Reflection.getHandle((CraftItemStack) stack));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

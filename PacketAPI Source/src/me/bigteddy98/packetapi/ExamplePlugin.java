@@ -1,12 +1,13 @@
 package me.bigteddy98.packetapi;
 
+import java.lang.reflect.Method;
+
 import me.bigteddy98.packetapi.api.PacketHandler;
 import me.bigteddy98.packetapi.api.PacketListener;
 import me.bigteddy98.packetapi.api.PacketRecieveEvent;
 import me.bigteddy98.packetapi.api.PacketSendEvent;
 import me.bigteddy98.packetapi.api.PacketType;
-import net.minecraft.server.v1_7_R2.ServerPing;
-import net.minecraft.server.v1_7_R2.ServerPingPlayerSample;
+import me.bigteddy98.packetapi.api.Reflection;
 
 public class ExamplePlugin implements PacketListener {
 
@@ -21,12 +22,10 @@ public class ExamplePlugin implements PacketListener {
 	}
 
 	@PacketHandler(listenType = PacketType.PacketStatusOutServerInfo)
-	public void onSend(PacketSendEvent event) {
-		System.out.println("out: " + event.getPacket().getName());
-
-		ServerPing currentPing = (ServerPing) event.getPacket().getValue("b");
-		currentPing.setPlayerSample(new ServerPingPlayerSample(903, 101));
-
+	public void onSend(PacketSendEvent event) throws Exception {
+		Method setSample = Reflection.getMCClass("ServerPing").getMethod("setPlayerSample", Reflection.getMCClass("ServerPingPlayerSample"));
+		Object currentPing = event.getPacket().getValue("b");
+		setSample.invoke(currentPing, PacketDataWrapper.ServerPingPlayerSample(1002, 1021));
 		event.getPacket().setValue("b", currentPing);
 	}
 }
