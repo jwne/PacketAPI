@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class PacketWrapper {
 
-	private Object packet;
+	protected Object packet;
 
 	public PacketWrapper(Object packet) {
 		this.packet = packet;

@@ -30,5 +30,4 @@ public class ExamplePlugin implements PacketListener {
 		Object currentPing = f.get(event.getPacket().getNMSPacket());
 		setSample.invoke(currentPing, sample);
 	}
-	
 }
