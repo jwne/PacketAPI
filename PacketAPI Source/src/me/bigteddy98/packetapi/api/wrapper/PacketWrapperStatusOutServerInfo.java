@@ -19,8 +19,8 @@ public class PacketWrapperStatusOutServerInfo extends PacketWrapper {
 		}
 	}
 
-	public void setMOTD(String mOTD) {
-		this.ping.setMOTD(new ChatComponentText(mOTD));
+	public void setMOTD(String motd) {
+		this.ping.setMOTD(new ChatComponentText(motd));
 	}
 
 	public GameProfile[] getOnlinePlayers() {
